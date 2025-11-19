@@ -30,7 +30,7 @@ async def tts_endpoint(request: Request):
         payload = await request.json()
         message = payload.get("message", {})
         text = message.get("text")
-        sample_rate = message.get("sampleRate", 16000)
+        sample_rate = message.get("sampleRate", 8000)
 
         if not text:
             return JSONResponse({"error": "Missing text field."}, status_code=400)
