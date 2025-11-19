@@ -50,9 +50,9 @@ async def tts_endpoint(request: Request):
             "text": text,
             "model_id": MODEL_ID,
             "voice_settings": {
-                "stability": 0.5,
-                "similarity_boost": 0.8,
-                "style": 0.3,
+                "stability": 0.45,
+                "similarity_boost": 0.55,
+                "style": 0.2,
                 "use_speaker_boost": True
             }
         }
