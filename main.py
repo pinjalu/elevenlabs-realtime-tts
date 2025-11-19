@@ -5,6 +5,7 @@ import websockets
 import json
 import os
 from dotenv import load_dotenv
+import websockets
 
 load_dotenv()
 
@@ -28,10 +29,15 @@ async def tts(request: Request):
             return JSONResponse({"error": "No text provided"}, status_code=400)
 
         async def audio_stream():
+
+            headers = [("xi-api-key", ELEVEN_API_KEY)]  # ✅ list of tuples
+
             async with websockets.connect(
                 REALTIME_URL,
-                extra_headers={"xi-api-key": ELEVEN_API_KEY}
+                extra_headers=headers  # ✅ pass list, not dict
             ) as ws:
+                ...
+
 
                 init_message = {
                     "text": text,
