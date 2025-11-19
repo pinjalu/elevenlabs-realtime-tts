@@ -30,7 +30,7 @@ async def tts_endpoint(request: Request):
         payload = await request.json()
         message = payload.get("message", {})
         text = message.get("text")
-        sample_rate = message.get("sampleRate", 8000)
+        sample_rate = message.get("sampleRate", 16000)
 
         if not text:
             return JSONResponse({"error": "Missing text field."}, status_code=400)
@@ -43,7 +43,9 @@ async def tts_endpoint(request: Request):
         # ---------------------------
 
         # ElevenLabs streaming endpoint with output_format=pcm
-        tts_url = f"{BASE_TTS_URL}/{VOICE_ID}/stream?output_format=pcm_{sample_rate}"
+        # tts_url = f"{BASE_TTS_URL}/{VOICE_ID}/stream?output_format=pcm_{sample_rate}"
+        tts_url = f"{BASE_TTS_URL}/{VOICE_ID}/stream?output_format=ulaw_8000"
+
 
         headers = {
             "Content-Type": "application/json",
@@ -90,7 +92,9 @@ async def tts_endpoint(request: Request):
                     yield chunk
         # ---------------------------
 
-        return StreamingResponse(audio_stream(), media_type=f"audio/pcm;rate={sample_rate}")
+        # return StreamingResponse(audio_stream(), media_type=f"audio/pcm;rate={sample_rate}")
+        return StreamingResponse(audio_stream(), media_type="audio/ulaw;rate=8000")
+
 
     except Exception as e:
         return JSONResponse({"error": str(e)}, status_code=500)
